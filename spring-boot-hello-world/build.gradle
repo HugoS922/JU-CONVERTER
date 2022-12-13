@@ -3,6 +3,8 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
 	id 'java'
 	id 'jacoco'
+	id 'org.sonarqube' version '3.4.0.2513'
+	id 'application'
 }
 
 bootJar {
@@ -58,5 +60,8 @@ test {
 		includeTestsMatching("com.jalasoft.convert.*")
 	}
 }
-
+application {
+	// Define the main class for the application.
+	mainClass = 'gradle.test.spring-boot-hello-world'
+}
 test.finalizedBy("jacocoTestReport")
