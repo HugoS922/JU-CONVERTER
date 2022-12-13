@@ -19,6 +19,9 @@ sourceCompatibility = "11"
 
 repositories {
 	mavenCentral()
+	maven {
+        	url "https://plugins.gradle.org/m2/"
+	}
 //	maven {
 //		url "https://artifact.aspose.com/repo/"
 //	}
