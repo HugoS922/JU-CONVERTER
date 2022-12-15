@@ -16,14 +16,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Test') {
-             steps {
-                 dir('./spring-boot-hello-world') {
-                     sh './gradlew test'
-                  }
-              }
-         }
         stage('Sonarqube') {
             steps {
                 dir('./spring-boot-hello-world') {
