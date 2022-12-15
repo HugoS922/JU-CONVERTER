@@ -1,16 +1,18 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.4'
-	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
-	id 'java'
-	id 'jacoco'
-	id 'org.sonarqube' version '3.4.0.2513'
-	id 'application'
+   id 'org.springframework.boot' version '2.7.4'
+   id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+   id 'java'
+   id 'java-library'
+   id 'jacoco'
+   id 'maven-publish'
+   id 'org.sonarqube' version '3.4.0.2513'
+   id 'io.qameta.allure' version '2.11.2'
 }
 
 bootJar {
-	manifest {
-		attributes 'Start-Class': 'com.jalasoft.convert.FileDemoApplication'
-	}
+   manifest {
+      attributes 'Start-Class': 'com.jalasoft.convert.FileDemoApplication'
+   }
 }
 
 group = 'com.codacum'
@@ -18,54 +20,73 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = "11"
 
 repositories {
-	mavenCentral()
-	maven {
-        	url "https://plugins.gradle.org/m2/"
-	}
-//	maven {
-//		url "https://artifact.aspose.com/repo/"
-//	}
+   mavenCentral()
+// maven {
+//    url "https://artifact.aspose.com/repo/"
+// }
+   maven {
+      url "https://plugins.gradle.org/m2/"
+   }
 }
 
 dependencies {
-	// tag::actuator[]
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	// https://mvnrepository.com/artifact/com.alibaba/fastjson
+   // tag::actuator[]
+   implementation 'org.springframework.boot:spring-boot-starter-actuator'
+   implementation 'org.springframework.boot:spring-boot-starter-web'
+   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+   // https://mvnrepository.com/artifact/com.alibaba/fastjson
     implementation 'com.alibaba:fastjson:1.1.15'
-        runtimeOnly group: 'org.sonarsource.scanner.gradle', name: 'sonarqube-gradle-plugin', version :'3.2.0'
 
 
     //implementation 'org.apache.httpcomponents:httpcore:4.4.1'
     implementation 'org.apache.httpcomponents:httpclient:4.5'
 
-	implementation group: 'org.springframework', name: 'spring-test', version: '3.1.1.RELEASE'
-	testImplementation 'junit:junit:4.12'
-	implementation group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.poi.xwpf.converter.pdf', version: '2.0.4'
-	implementation group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.poi.xwpf.converter.xhtml', version: '2.0.4'
-	implementation 'net.sourceforge.tess4j:tess4j:5.4.0'
-//	implementation group: 'com.aspose', name: 'aspose-words', version: '22.10', classifier: 'jdk17'
+   implementation group: 'org.springframework', name: 'spring-test', version: '3.1.1.RELEASE'
+   testImplementation 'junit:junit:4.12'
+   implementation group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.poi.xwpf.converter.pdf', version: '2.0.4'
+   implementation group: 'fr.opensagres.xdocreport', name: 'fr.opensagres.poi.xwpf.converter.xhtml', version: '2.0.4'
+   implementation 'net.sourceforge.tess4j:tess4j:5.4.0'
+// implementation group: 'com.aspose', name: 'aspose-words', version: '22.10', classifier: 'jdk17'
 
-	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
-	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
+   // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+   implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
 
-	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.4'
-	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+   // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
+   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.4'
+   annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 test {
-	testLogging {
-		events "failed"
-		exceptionFormat "full"
-	}
-	filter {
-		includeTestsMatching("com.jalasoft.convert.*")
-	}
+   testLogging {
+      events "failed"
+      exceptionFormat "full"
+   }
+   filter {
+      includeTestsMatching("com.jalasoft.convert.*")
+   }
 }
-application {
-	// Define the main class for the application.
-	mainClass = 'gradle.test.spring-boot-hello-world'
+
+publishing {
+   publications {
+      maven(MavenPublication) {
+         artifact("build/libs/spring-boot-hello-world-0.0.1-SNAPSHOT-plain" + ".jar") {
+            extension 'jar'
+         }
+      }
+   }
+
+   repositories {
+      maven {
+//       name 'nexus'
+         url "http://10.0.2.15:8081/nexus/content/repositories/snapshots/"
+         allowInsecureProtocol true
+         credentials {
+            username "admin"
+            password "admin123"
+         }
+      }
+   }
 }
+
+
 test.finalizedBy("jacocoTestReport")
