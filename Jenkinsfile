@@ -31,5 +31,19 @@ pipeline {
                 }
             }
         }
+        stage('Upload') {
+            steps {
+                dir('./spring-boot-hello-world'){
+                    sh './gradlew publish --console verbose'
+                }
+            }
+        }
+        stage('Test') {
+             steps {
+                 dir('./spring-boot-hello-world') {
+                     sh './gradlew test'
+                  }
+              }
+         }
     }
 }
