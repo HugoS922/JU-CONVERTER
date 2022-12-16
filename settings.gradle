@@ -1,4 +1,4 @@
-systemProp.sonar.host.url = http ://10.0.2.15:9000
-systemProp.sonar.login = squ_f525ba48460866d596d4d60a139330821a1c3d5e
+systemProp.sonar.host.url =http ://10.0.2.15:9000
+systemProp.sonar.login =squ_f525ba48460866d596d4d60a139330821a1c3d5e
 rootProject.name = 'spring-boot-hello-world'
 include('spring-boot-hello-world')
